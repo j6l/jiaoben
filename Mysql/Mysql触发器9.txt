@@ -1,0 +1,28 @@
+触发器
+创建单个触发器
+				名字			事件后
+CREATE TRIGGER trig_book AFTER INSERT
+	ON t_book FOR EACH ROW
+		UPDATE t_bookType SET bookNum=bookNum+1 WHERE new.bookTypeId=t_booktype.id;	执行事件
+				位置			操作						判断
+创建一个trig_book触发器，通过判断，在事件后，于t_bookType执行操作
+
+INSERT INTO t_book VALUES(NULL,’java好‘,100,'ke',1);	于t_book创建新的内容，通过触发器判断在t_bookType的bookName位置加一
+
+DELIMITER |				内包含多个;号，添加函数是编译器可以识别
+CREATE TRIGGER trig_book2 AFTER DELETE
+	ON t_book FOR EACH ROW
+	BEGIN											old是发生后的数据定位
+		UPDATE t_bookType SET bookNum=bookNum-1 WHERE old.bookTypeId=t_bookType.id;
+		INSERT INTO t_log VALUES(NULL,NOW(),'在book表里删除了一条数据');	在t_log插入数据NOW，NOW()函数当前系统时间
+		DELETE FROM t_test WHERE old.bookTypeId=t_test.id;		
+	END
+|
+DELIMITER ；
+
+
+DELETE FROM t_book WHERE id=5;		删除数据验证trig_book2触发器
+
+SHOW TRIGGERS;		查看触发器信息
+
+DROP TRIGGER trig_book2 ;  删除触发器（最后留一个空格）

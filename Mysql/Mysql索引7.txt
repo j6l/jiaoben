@@ -1,0 +1,54 @@
+索引
+定义：索引是由数据库表中一列或者多列组合而成，其作用的提高对表中数据的查询速度；
+类似于图书目录
+
+优点：提高查询数据的速度
+缺点：创建和维护索引的时间增加
+
+1,普通索引
+  这类索引可以创建在任何数据类型中;
+2,唯一性索引
+  使用UNIQUE 参数可以设置，在创建唯一性索引时，限制该索引的值必须是唯一的;
+3，全文索引
+  使用FULLTEXT 参数可以设置，全文索引 只能创建在CHAR,VARCHAR,TEXT 类型的字段上。主要作用就是提高查询较大字符串类型的速度;
+4,单列索引
+  在表中可以给单个字段创建索引，单列索引可以是普通索引，也可以是唯一性索引，还可以是全文索引;
+5,多列索引
+  多列索引是在表的多个字段上创建一个索引;
+6,空间索引
+  使用SPATIAL 参数可以设置空间索引。空间索引只能建立在空间数据类型上，这样可以提高系统获取空间数据的效率;只有MyISAM 引擎支持该索引，Mysql 默认引擎不支持;
+ 
+创建索引表
+CREATE TABLE mytable(id INT,		普通索引
+					username VARCHAR(20),
+					PASSWORED VARCHAR(20),
+					INDEX (userName)
+					); 
+
+CREATE TABLE mytable2(id INT,
+					username VARCHAR(20),
+					PASSWORED VARCHAR(20),
+					UNIQUE INDEX index_usName(userName)		唯一性索引   别名
+					);
+					
+CREATE TABLE mytable3(id INT,				多列索引
+					username VARCHAR(20),
+					PASSWORED VARCHAR(20),
+					INDEX index_usName_password(userName,PASSWORED)
+					);
+					
+在已存在的表建立索引
+
+CREATE INDEX index_usName ON mytable4(userName);		普通索引
+CREATE UNIQUE INDEX index_usName ON mytable4(userName);	唯一性索引
+CREATE INDEX index_usName_password ON mytable4(userName,PASSWORED);		多列索引
+
+ALTER TABLE创建索引
+
+ALTER TABLE mytable5 ADD INDEX index_usName(userName);		普通索引
+ALTER TABLE mytable5 ADD UNIQUE INDEX index_usName(userName);	唯一性索引
+ALTER TABLE mytable5 ADD INDEX index_usName_password(userName,PASSWORED);	多列索引
+
+删除索引
+			索引名字		所在表
+DROP INDEX index_usName ON mytable5;

@@ -1,0 +1,43 @@
+视图
+是一种虚拟的表，数据库中止存放了视图的定义，显示的数据是原来表中的数据
+使用便捷，增加数据安全性，提高表的逻辑独立性
+
+单表创建
+CREATE VIEW v1 AS SELECT * FROM t_book;		创建t_book表的全部内容的视图取名v1
+
+SELECT * FROM v1;		查询视图v1；
+
+CREATE VIEW v2 AS SELECT bookName,price FROM t_book;		取bookName，price两个元素创建v2视图
+
+CREATE VIEW v3(b,p) AS SELECT bookName,price FROM t_book;	创建视图v3，给bookName，price两个元素取别名（b，p），给bookName，price两个元素取别名（b，p）
+
+多表创建
+CREATE VIEW v4 AS SELECT bookName,bookTypeName FROM t_book,t_booktybe WHERE t_book.bookTypeId=t_booktybe.id;	创建视图v4，在两个表内查询bookName，bookTypeId的内容，输出条件bookTypeId与id相等的内容
+
+CREATE VIEW v5 AS SELECT tb.bookName,tby.bookTypeName FROM t_book tb,t_booktybe tby WHERE tb.bookTypeId=tby.id;
+
+查看识图信息
+DESCRIBE v5;	查看视图v5（可简写DESC）
+
+SHOW TABLE STATUS LIKE 'v5';	查看视图v5的基本信息
+
+SHOW TABLE STATUS LIKE 't_book';	查看视图t_book的基本信息与v5做对比
+
+SHOW CREATE VIEW v5;	查看v5的详细信息
+
+修改视图
+SELECT * FROM v1;	显示视图v1
+
+CREATE OR REPLACE VIEW v1(bookName,price) AS SELECT bookName,price FROM t_book;		修改v1表中的显示出来的元素（类别，多少），并定向到t_book中的相应元素
+
+ALTER VIEW v1 AS SELECT * FROM t_book;	修改视图，如果没有相应的视图不能完成，上面的没有视图可以完成创建
+
+更新视图
+INSERT INTO v1 VALUES(NULL,'java good',120,'fang',1);	通过视图添加数据
+		修改视图的数据，会直接修改相应表中的数据
+UPDATE v1 SET bookName=‘java very good',price=200 WHERE  id=5;	通过WHERE判断修改相应的数据
+
+DELETE FROM v1 WHERE id=5;	删除id=5的数据
+
+删除视图
+DROP VIEW IF EXISTS v4;		删除视图v4

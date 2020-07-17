@@ -1,0 +1,15 @@
+SELECI COUNT (*) FROM t _grade;		查询记录数
+SELECT COUNT(*) AS total FROM t grade;		给予查询记录数的列表命名
+SELECT StuName,COUNT (*) FROM t_grade GROUP BY StuName;		求StuName列表中有多少行数据
+
+SELECT StuName,SUM(score) FROM t_grade WHERE stuName=  "张三” ;		求张三score的和
+SELECT StuName,SUM (score) FROM t_grade GROUP BY StuName;		求StuName列表中score的和
+	
+SELECT StuName,AVG (score) FROM t grade WHERE stuName="张三";		求张三score的平均值
+SELECT StuName,AVG (score) FROM t_grade GROUP BY StuName;		求StuName列表中score的平均值
+
+SELECT StuName,course,MAX (score)  FROM t_grade WHERE stuName="张三";		求张三score的最大值
+SELECT StuName,MAX (3core) FROM t_grade GROUP BY StuName;		求StuName列表中score的最大值
+
+SELECT StuName,course,MIN (score)  FROM t_grade WHERE stuName="张三”;		求张三score的最小值
+SELECT StuName,MIN (score) FROM t_grade GROUP BY StuName;		求StuName列表中score的最小值

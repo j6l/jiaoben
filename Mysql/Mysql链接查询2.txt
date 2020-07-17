@@ -1,0 +1,15 @@
+﻿EIECT * FROM t_book,t_bookType;		输出两个表
+ELECT * FROM t_book,t_bookType WHERE t_book.bookTypeId=t_bookType.id;		输出两个表中这两个元素相同的表
+
+内连接
+ELECT bookName,author,bookTypeName FROM t_book,t_bookType WHERE t_book.bookTypeId=t_bookType id;		输出两个表中这两个元素相同的表中这三个元素的表（不用*所有元素）
+ELECT tb.bookName,tb.author,tby.bookTypeName FROM t_book tb,t_bookType tby WHERE tb.bookIypeId=tby.id;	给表别名，输出这两个元素相同的表中这三个元素的表（避免元素过多混乱，给予表别名）
+
+外连接
+ELECT * FROM t_book LEFT JOIN t_bookType ON t_book.bookTypeId=t_bookType.id;	左链接，输出两个列表相同的的行，以左为尊，左边有右边没有右边输出空
+ELECT tb.bookdTame,tb.author,tby.bookIypeName FROM t_book tb LEFT JOIN t_bookType tby ON tb.bookTypeId=tby.id;
+
+ELECT * FROM t_book RIGHT JOIN t_bookType ON t_book.bookTypeId=t_bookType.id;	右链接，输出两个列表相同的的行，以右为尊，右边有左边没有左边输出空
+ELECT tb.bookName,tb.author,tby.bookTypeName FROM t_book tb LEFT JOIN t_bookType tby ON tb.bookTypeId=tby.id;
+
+ELECT tb.bookName,tb.author,tby.bookTypeName FROM t_book tb,t_bookType tby WHERE tb.bookTypeId=tby.id AND tb.price>70;	内连接输出p6行的数据且price大于70的数据	

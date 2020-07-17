@@ -1,0 +1,16 @@
+常用函数
+		返回日期  返回时间	返回月份（1~12）
+SELECT CURDATE(),CURTIME(),MONTH(birthday) AS m FROM t_t;
+				字符串长度				全部大写		全部小写
+SELECT userName,CHAR_LENGTH(userName),UPPER(userName),LOWER(userName) FROM t_t;
+			绝对值	开平方	求余
+SELECT num,ABS(num),SQRT(9),MOD(9,4) FROM t_t;
+
+												加密方式   密码（不可逆）
+INSERE INTO t_t VALUES(NULL,'2013-1-1','a',1,PASSWORD('123456'));
+											加密方式   密码（不可逆）
+INSERE INTO t_t VALUES(NULL,'2013-1-1','a',1,MD5('123456'));
+															加密方式 密码  密钥（可解密）	必须用BLOB类型字段保存
+INSERE INTO t_t VALUES(NULL,'2013-1-1','a',1,MD5('123456')，ENCODE('asdf','aa'));
+		解密  那类数据，aa密钥		判断哪一行数据
+SELECT DECODE(pp,'aa') FROM t_t WHERE id=5;

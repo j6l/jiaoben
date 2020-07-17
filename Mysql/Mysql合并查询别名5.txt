@@ -1,0 +1,21 @@
+﻿合并查询
+
+SELECT id FROM t_book;		查询t_book中id表；
+ 
+SELECT id FROM t_booktype;		查询t_booktype中id表；
+ 
+SELECT id FROM t_book UNION SELECT id FROM t_booktype;		两个表一起查询，去除重复的结果
+  
+SELECT id FROM t_book UNION ALL SELECT id FROM t_booktype;	两个表一起查询，输出所有结果
+
+给表取别名
+
+SELECT * FROM t_book WHERE id=1;	查询t_book中id等于1的表
+
+SELECT * FROM t_book t WHERE t.id=1;	给t_book取别名t
+
+SELECT t.bookName FROM t_book t WHERE t.id=1;	查询t_book中id等于1的t_bookName元素
+
+SELECT t.bookName bName	FROM t_book t WHERE t.id=1;		查询t_book中id等于1的t_bookName元素并给元素取名bName
+
+SELECT t.bookName AS bName FROM t_book t WHERE t.id=1;	等同上一条

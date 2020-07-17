@@ -1,0 +1,45 @@
+﻿SELECT id,stuName,age,sex,gradeName FROM t_student;		查询表
+SELECT stuName,id,age,sex,gradeName FROM t_student;		按所需顺序查询表
+
+SELECT * FROM t_student;		输出表
+
+
+SELECT stuName,gradeName FROM t_student;		查询所需的表
+
+SELECT * FROM t_student WHERE id=1;		查询id=1的表
+
+SELECT * FROM t_student WHERE age>22;		查询age>22的表
+
+SELECT * FROM t_student WHERE age IN (21,23);		查询age21到23的表
+SELECT * FROM t_student WHERE age NOT IN (21,23);	查询age21到23之外的表
+
+SELECT * FROM t_student WHERE age BETWEEN 21 AND 24;		查询age21或24的表
+SELECT * FROM t_student WHERE age NOT BETWEEN 21 AND 24;	查询age不是21或24的表
+
+SELECT * FROM t_student WHERE stuName LIKE '张三';		查询stuName为张三的表
+SELECT * FROM t_student WHERE stuName LIKE '张三%';		%位候补多个字符
+SELECT * FROM t_student WHERE stuName LIKE '张三_';		_位候补一个字符
+SELECT * FROM t_student WHERE stuName LIKE ’%张三%”;	前后都候补多个字符
+
+SELECT * FROM t_student WHERE sex IS NULL;		查询sex为空的表
+SELECT * FROM t _student WHERE sex IS NOT NULL;	查询sex不为空的表
+
+SELECT * FROM t_student WHERE gradeName='一年级’ AND age=23;		查询为一年级和age23的表
+SELECT * FROM t_student WHERE gradeName='一年级’ OR age=23;			查询为一年级或age23的表
+
+SELECT DI STINCT gradeName FROM t_student;		去除重复的数据之后排列出来 
+
+SELECT * FROM t_student ORDER BY age ASC;		age正序排序
+SELECT * FROM t_student ORDER BY age DESC;		age反序排序
+
+SELECT * FROM t_student GROUP BY gradeName;
+
+SELECT gradeName,GROUP_CONCAT(stuName) FROM t_student GROUP BY gradeName;		以gradeName为单位查询出stuName的内容并排列出来
+SELECT gradeName,COUNT (stuName) FROM t_student GROUP BY gradeName;		以gradeName为单位查询出stuName的数量
+SELECT gradeName,COUNT (stuName) FROM t_student GROUP BY gradeName HAVING COUNT (stuName) >3;	以gradeName为单位查询出stuName的数量大于3的表
+SELECT gradeName,COUNT(stuName) FROM t_student GROUP BY gradeName WITH ROLLUP;		以gradeName为单位查询出stuName的数量，输出总计
+SELECT gradeName,GROUP_CONCAT(stuName) FROM t_student GROUP BY gradeName WITH ROLLUP;		以gradeName为单位查询出stuName的内容，拼接输出列表
+
+SELECT * FROM t_student LIMIT 0,5;		分页查询0是开头，
+SELECT * FROM t_student LIMIT 5,5;		第一个数是第几个数据开始，
+SELECT * FROM t_student LIMIT 10,5;		第二个数是一页显示多少数据，不足不影响

@@ -1,0 +1,18 @@
+插入数据
+INSERT INTO t_book VALUES(NULL,'我爱我家‘,20’张三',1);	插入一条数据
+
+INSERT INTO t_book (id,bookName,price,author,bookTypeId) VALUES(NULL,'我爱我家‘,20’张三',1);	插入一条制定位置的数据
+
+INSERT INTO t_book (bookName,author) VALUES('我爱我家‘,’张三');		插入一条不完整的数据
+
+INSERT INTO t_book (id,bookName,price,author,bookTypeId) VALUES (NULL,'我爱我家‘,20’张三',1),(NULL,'我爱我家2‘,20’张三',1),(NULL,'我爱我家3‘,20’张三',1)	插入多条数据
+
+更新数据
+					属性名	内容			属性名 内容		条件
+UPDATE t_book SET bookName='java编程思想‘，price=120 WHERE id=1;	改变条件内的所需更改的内容
+
+UPDATE t_book SET bookName=我‘ WHERE bookName LIKE '%我爱我家%’； 符合条件的多个元素一起改变
+
+DELETE FROM t_book WHERE id=5；删除id=5的这条数据
+								可以删除多条数据，只要条件符合全部删除
+DELETE FROM t_book WHERE bookName=‘我’;	删除bookName等于我数据

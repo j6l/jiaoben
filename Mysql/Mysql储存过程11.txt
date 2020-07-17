@@ -1,0 +1,165 @@
+﻿储存过程
+DELIMITER &&													变量语句，相当于作为一个函数的开头
+CREATE PROCEDURE pro_tt (IN bT INT,OUT count_num INT)			函数语句 储存过程名称（IN(输入参数) 查询名 数据类型，OUT(输出参数) 输出参数名称 类型 ）	
+	READS SQL DATA		函数语句读数据(CONTAINS SQL包含sql语句不读写，NO SQL不包含sql，READS SQL DATA读，MODIFIES SQL DATA写，默认第一个)
+	BEGIN			可以包含多条条件语句
+		SELECT COUNT(*) FROM t_t WHERE num=bT;		条件语句
+	END
+	&&															变量语句，相当于作为一个函数的结尾
+DELIMITER ;
+
+CALL pro_tt(1,@tot);  （输入条件，写的话全局变量不写局部变量）
+
+函数
+DELIMITER &&
+CREATE FUNCTION func_tt (bookID INT)		函数语句  函数名  返回值+类型  
+	RETURNS VARCHAR(20)				RETURNS type  sql支持类型都可以返回
+	BEGIN
+		RETURN (SELECT userName FROM t_t WHERE id=bookID);		return返回需要的结果
+	END
+	&&
+DELIMITER ;
+
+SELECT func_tt(2);			查询函数的结果
+
+
+变量
+DELIMITER &&
+CREATE PROCEDURE pro_user()			
+	BEGIN
+		DECLARE a,b VARCHAR (20);		定义变量 类型
+		INSERT INTO t_user VALUES(NULL,a,b);		传递变量进入t_user
+	END
+&&
+DELIMITER ;
+
+DELIMITER &&
+CREATE PROCEDURE pro_user2() 
+	BEGIN
+		DECLARE a,b VARCHAR (20); 		
+		SET a='python1234',b='123456';		直接定义ab
+		INSERT INTO t_user VALUES(NULL,a,b);
+	END
+&&
+DELIMITER ;
+
+DELIMITER &&
+CREATE PROCEDURE pro_user3()
+	BEGIN
+		DECLARE a,b VARCHAR (20);
+		SELECT userName,num INTO a,b FROM  t_t WHERE id=2;		读取其他表的值传递过来
+		INSERT INTO t_user VALUES(NULL,a,b);
+	END
+&&
+DELIMITER ;
+
+CALL pro_user();		执行
+
+CALL pro_user2();		执行
+
+CALL pro_user3();		执行
+
+游标
+DELIMITER &&
+CREATE PROCEDURE pro_user4()
+	BEGIN
+		DECLARE a,b VARCHAR (20);
+		DECLARE cur_t CURSOR FOR SELECT userName,num FROM t_user2;		创建游标 DECLARE 流标名 CURSOR FOR 选择语句
+		OPEN cur_t;							打开游标
+		FETCH cur_t INTO a,b;		使用游标
+		INSERT INTO t_user VALUES(NULL,a,b);
+		CLOSE cur_t;				关闭游标
+	END
+&&
+DELIMITER ;
+
+CALL pro_user4();		执行
+
+
+if判断
+DELIMITER &&
+CREATE PROCEDURE pro_user5(IN bookid INT)		定义一个变量
+	BEGIN
+		SELECT COUNT(*) INTO @num FROM t_user WHERE id=bookid;		定义一个获取的值
+		IF @num>0 THEN UPDATE t_user SET userName='java1234' WHERE id=bookid;		if 条件 then 成立执行语句
+		ELSE
+			INSERT INTO t_user VALUES(NULL,'asda','asdasdd'); 						else 执行语句
+		END IF ;		结束
+	END
+&&
+DELIMITER ;
+
+CALL pro_user5(5);		执行
+
+case等同while
+DELIMITER &&
+CREATE PROCEDURE pro_user6(IN bookid INT)
+	BEGIN
+		SELECT COUNT(*) INTO @num FROM t_user WHERE id=bookid;
+		CASE @num		case 开始
+			WHEN 1 THEN UPDATE t_user SET userName='java1234da' WHERE id=bookid;		when 1 then 执行语句
+			WHEN 2 THEN INSERT INTO t_user VALUES(NULL,'pythonda','asdasdd122');		when 2 then 执行语句
+			ELSE INSERT INTO t_user VALUES(NULL,'ccccc','aaaaa');						else  执行语句
+		END CASE;		结束
+	END
+&&
+DELIMITER ;
+
+CALL pro_user6(6);		执行
+
+
+LOOP循环 不会自动跳出
+DELIMITER &&
+CREATE PROCEDURE pro_user8(IN cuer INT)
+	BEGIN
+		aaa:LOOP
+			SET cuer=cuer-1;
+			IF cuer=0 THEN LEAVE aaa;
+			ELSEIF cuer=3 THEN ITERATE aaa;
+			END IF ;
+			INSERT INTO t_user VALUES(cuer,'pythonda','asdasdd122');
+		END LOOP aaa ;
+	END
+&&
+DELIMITER ;
+
+
+aaa:LOOP			循环语句开头		需要遇见LEAVE aaa才能退出
+END LOOP aaa ;		循环语句结尾		ITERATE aaa跳过本次循环
+
+
+DELETE FROM t_user;		删除表内容
+
+CALL pro_user8(11);		执行
+
+
+REPEAT循环 有跳出语句
+REPEAT
+	SET cuer=cuer-1;		循环减1
+	INSERT INTO t_user VALUES(cuer,'pythonda','asdasdd122');		执行语句
+	UNTIL cuer=1			当cuer=1跳出
+END REPEAT;
+
+
+WHILE循环
+WHILE cuer>0 DO
+	INSERT INTO t_user VALUES(cuer,'pythonda','asdasdd122');
+	SET cuer=cuer-1;
+END WHILE;
+
+查看函数状态
+SHOW PROCEDURE STATUS LIKE'pro_tt';
+
+查看函数定义
+SHOW CREATE PROCEDURE pro_tt;
+
+修改函数过程注释
+ALTER PROCEDURE pro_tt COMMENT '测试一个COMMENT';
+
+删除函数过程
+DROP PROCEDURE pro_user；
+
+
+
+数据备份
+mysqldump -u root -p db_book > c:\db_book.sql
