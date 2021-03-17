@@ -5,6 +5,6 @@
 
 > 使用dos2unix进行转义
 ```shell
-yum install dos2unix
+yum install dos2unix -y
 dos2unix xx.sh
 ```
